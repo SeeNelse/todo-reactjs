@@ -1,0 +1,28 @@
+.header {
+  background-color: #343a40;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.header__logo {
+  color: #e2e2e2;
+  margin-left: 50px;
+}
+
+.header__info {
+  color: #e2e2e2;
+  margin-right: 50px;
+  font-size: 18px;
+}
+
+.form__text {
+  margin: 10px 0;
+}
+
+.card {
+  margin-bottom: 30px;
+}
