@@ -5,8 +5,7 @@ class AddNew extends Component {
     super(props);
     this.state = {
       head: '',
-      text: '123',
-      id: '',
+      text: '',
     }
 
 
@@ -17,6 +16,7 @@ class AddNew extends Component {
 
   addItem(event) {
     this.props.updateData(this.state.head, this.state.text)
+    this.setState({ head: '', text: '' })
   }
 
   addHead(event) {
@@ -32,8 +32,8 @@ class AddNew extends Component {
       <div className="row justify-content-md-center">
         <form className="form col-lg-6">
           <div className="form-group">
-            <input type="text" className="form-control form__head" onChange={ this.addHead } placeholder="Заголовок" />
-            <textarea className="form-control form__text" rows="3" onChange={ this.addText } placeholder="Новая задача (обязательно)"></textarea>
+            <input type="text" className="form-control form__head" value = { this.state.head } onChange={ this.addHead } placeholder="Заголовок" />
+            <textarea className="form-control form__text" rows="3" value = { this.state.text } onChange={ this.addText } placeholder="Новая задача (обязательно)"></textarea>
             <button type="button" className="btn btn-dark" onClick={ this.addItem } >Запостить!</button>
           </div>
         </form>

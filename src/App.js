@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
 import './css/App.css';
-import AddNew from './addNew';
-import Post from './post';
+import AddNew from './components/addNew';
+import Post from './components/createPost';
 
 class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      base: {},
+      base: [],
       noPost: 0,
     }
 
   }
 
-  updateData = (value1, value2) => {
-    console.log('work!')
-    this.setState({ noPost: this.state.noPost++ })
-    this.setState({ base: {
-      // 1: {
-        head: value1,
-        text: value2,
-      // }
-    } })
-    console.log(this.state.base.id)
+  updateData = (headText, bodyText) => {
+    console.log('updateData')
+
+    let newPostData = {
+      head: headText,
+      text: bodyText,
+      id: this.state.noPost,
+    }
+
+    this.setState(prevState => ({
+      base: [...prevState.base, newPostData],
+      noPost: prevState.noPost + 1
+    }))
+
+    console.log(this.state.noPost)
   }
 
   render() {
+    const posts = this.state.base.map((post) =>
+      <Post key = { post.id } headText = { post.head } bodyText = { post.text } />
+    );
     return (
       <div className="App">
         <header className="header">
@@ -33,9 +41,9 @@ class App extends Component {
           <span className="header__info">React.js</span>
         </header>
         <div className="container">
-          <AddNew updateData={this.updateData} />
+          <AddNew updateData = {this.updateData} idPost = {this.state.noPost} />
           <div className="row">
-            <Post headText = { this.state.base.head } bodyText = { this.state.base.text } />
+            {posts}
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-class Post extends Component {
+class CreatePost extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      base: {}
+      
     }
   }
 
@@ -23,4 +23,4 @@ class Post extends Component {
   }
 }
 
-export default Post;
+export default CreatePost;
