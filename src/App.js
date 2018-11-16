@@ -11,11 +11,10 @@ class App extends Component {
       noPost: 0,
     }
 
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   updateData = (headText, bodyText) => {
-    console.log('updateData')
-
     let newPostData = {
       head: headText,
       text: bodyText,
@@ -26,13 +25,24 @@ class App extends Component {
       base: [...prevState.base, newPostData],
       noPost: prevState.noPost + 1
     }))
+  }
 
-    console.log(this.state.noPost)
+  deleteItem(index) {
+    let noItem = this.state.base.findIndex(x => x.id === index);
+    let arr = this.state.base;
+    arr.splice(noItem, 1);
+    this.setState({ base: arr });
   }
 
   render() {
     const posts = this.state.base.map((post) =>
-      <Post key = { post.id } headText = { post.head } bodyText = { post.text } />
+      <Post 
+        key = { post.id }
+        headText = { post.head }
+        bodyText = { post.text }
+        indexPost = { post.id }
+        deleteItem = { this.deleteItem } 
+      />
     );
     return (
       <div className="App">
@@ -41,7 +51,10 @@ class App extends Component {
           <span className="header__info">React.js</span>
         </header>
         <div className="container">
-          <AddNew updateData = {this.updateData} idPost = {this.state.noPost} />
+          <AddNew 
+            updateData = {this.updateData} 
+            idPost = {this.state.noPost} 
+          />
           <div className="row">
             {posts}
           </div>

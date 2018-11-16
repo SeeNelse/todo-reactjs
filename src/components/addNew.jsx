@@ -15,8 +15,13 @@ class AddNew extends Component {
   }
 
   addItem(event) {
-    this.props.updateData(this.state.head, this.state.text)
-    this.setState({ head: '', text: '' })
+    if (this.state.text) { // проверка на наличие текста в текстареа
+      event.target.previousElementSibling.classList.remove('is-invalid');
+      this.props.updateData(this.state.head, this.state.text)
+      this.setState({ head: '', text: '' })
+    } else {
+      event.target.previousElementSibling.classList.add('is-invalid');
+    }
   }
 
   addHead(event) {
