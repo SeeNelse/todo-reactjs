@@ -12,9 +12,10 @@ class App extends Component {
     }
 
     this.deleteItem = this.deleteItem.bind(this);
+    this.savePost = this.savePost.bind(this);
   }
 
-  updateData = (headText, bodyText) => {
+  updateData = (headText, bodyText) => { // Принять текст и записать его в стейт
     let newPostData = {
       head: headText,
       text: bodyText,
@@ -27,8 +28,23 @@ class App extends Component {
     }))
   }
 
-  deleteItem(index) {
-    let noItem = this.state.base.findIndex(x => x.id === index);
+  savePost(headText, bodyText, id) { // Принять текст и сохранить
+    let arr = this.state.base;
+    let changedPost = {
+      head: headText,
+      text: bodyText,
+      id: id,
+    }
+    arr.splice(id, 1, changedPost);
+    this.setState({ base: arr });
+  }
+
+  thisPost(index) { // выбор нужного элемента
+    return this.state.base.findIndex(x => x.id === index);
+  }
+
+  deleteItem(index) { // удалить элемент
+    let noItem = this.thisPost(index);
     let arr = this.state.base;
     arr.splice(noItem, 1);
     this.setState({ base: arr });
@@ -41,7 +57,8 @@ class App extends Component {
         headText = { post.head }
         bodyText = { post.text }
         indexPost = { post.id }
-        deleteItem = { this.deleteItem } 
+        deleteItem = { this.deleteItem }
+        savePost = { this.savePost }
       />
     );
     return (
@@ -52,11 +69,11 @@ class App extends Component {
         </header>
         <div className="container">
           <AddNew 
-            updateData = {this.updateData} 
-            idPost = {this.state.noPost} 
+            updateData = { this.updateData } 
+            idPost = { this.state.noPost } 
           />
           <div className="row">
-            {posts}
+            { posts }
           </div>
         </div>
       </div>
