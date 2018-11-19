@@ -16,6 +16,9 @@ class App extends Component {
   }
 
   componentWillMount() {
+    if (localStorage.getItem('toDos') === null || localStorage.getItem('noPost') === null) {
+      return;
+    }
     this.getDataFromStorage();
   }
 
