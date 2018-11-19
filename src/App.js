@@ -15,7 +15,23 @@ class App extends Component {
     this.savePost = this.savePost.bind(this);
   }
 
-  updateData = (headText, bodyText) => { // Принять текст и записать его в стейт
+  componentWillMount() {
+    this.getDataFromStorage();
+  }
+
+  setToLocalStorage() {
+    localStorage.setItem("toDos", JSON.stringify(this.state.base));
+    localStorage.setItem("noPost", this.state.noPost);
+  }
+
+  getDataFromStorage() {
+    this.setState({
+      base: JSON.parse(localStorage.getItem('toDos')),
+      noPost: +localStorage.getItem('noPost'),
+    });
+  }
+
+  newData = (headText, bodyText) => { // Принять текст и записать его в стейт
     let newPostData = {
       head: headText,
       text: bodyText,
@@ -25,29 +41,37 @@ class App extends Component {
     this.setState(prevState => ({
       base: [...prevState.base, newPostData],
       noPost: prevState.noPost + 1
-    }))
+    }), () => {
+      this.setToLocalStorage();
+    });
+    
   }
 
   savePost(headText, bodyText, id) { // Принять текст и сохранить
+    let thisPost = this.chosenPost(id)
     let arr = this.state.base;
     let changedPost = {
       head: headText,
       text: bodyText,
       id: id,
     }
-    arr.splice(id, 1, changedPost);
-    this.setState({ base: arr });
+    arr.splice(thisPost, 1, changedPost);
+    this.setState({ base: arr }, () => {
+      this.setToLocalStorage();
+    });
   }
 
-  thisPost(index) { // выбор нужного элемента
+  chosenPost(index) { // выбор нужного элемента
     return this.state.base.findIndex(x => x.id === index);
   }
 
   deleteItem(index) { // удалить элемент
-    let noItem = this.thisPost(index);
+    let noItem = this.chosenPost(index);
     let arr = this.state.base;
     arr.splice(noItem, 1);
-    this.setState({ base: arr });
+    this.setState({ base: arr }, () => {
+      this.setToLocalStorage();
+    });
   }
 
   render() {
@@ -69,7 +93,7 @@ class App extends Component {
         </header>
         <div className="container">
           <AddNew 
-            updateData = { this.updateData } 
+            newData = { this.newData } 
             idPost = { this.state.noPost } 
           />
           <div className="row">

@@ -21,6 +21,7 @@ class Post extends Component {
 
   editSave() {
     this.setState({ editMode: !this.state.editMode, });
+    console.log(this.props.indexPost)
     if (this.state.editMode) {
       this.props.savePost(this.state.editHead, this.state.editText, this.props.indexPost)
     }
@@ -31,7 +32,6 @@ class Post extends Component {
   editTextFunc(event) {
     this.setState({ editText: event.target.value })
   }
-
 
   render() {
     return (
